@@ -1,0 +1,19 @@
+{
+  "title": "ไปเจอประโยคนึงของฝรั่งความหมายดีมาก เขาพูดว่า.. \" Very Good\"",
+  "add_task" : "Add task",
+  "add_new_task" : "Add a new task...",
+  "add_button" : "ADD",
+  "my_tasks" : "MY TASKS",
+  "my_tasks_description" : "Just do it! ",
+  "clear_all_task" : "CLEAR ALL TASKS",
+  "empty_task" : "Empty task",
+  "task_delete_title" : " Are you sure you want to delete?",
+  "task_delete_description" : "You can delete anything, but if you still love them, it won't help you forget.",
+  "task_delete_all" : "Do you want to delete everything?",
+  "task_delete_description_all" : "Deleting something doesn't mean that you forget it.",
+  "task_delete_button" : "Delete",
+  "close_button" : "Cancel",
+  "todoRequired" : "Please fill in the tasks before submitting the form.",
+  "no_data" : "No data is available to delete.",
+  "welcome_message": "Hello, {{name}}. Welcome to {{website}}!"
+}

@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+@media screen and (max-width: 576px) {
+  .container-my-tasks {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .button-container-my-tasks {
+    display: flex;
+    align-items: center;
+  }
+
+  .my-tasks-all{
+    margin-bottom: 2rem;
+  }
+}
