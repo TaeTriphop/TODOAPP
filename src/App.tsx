@@ -96,7 +96,6 @@ function App() {
   let [isOpen, setIsOpen] = useState(false);
 
   function openModal() {
-    console.log(tasks.length);
     if (tasks.length === 0) {
       toast.error("No data is available to delete.", {
         position: "top-center",
@@ -276,11 +275,11 @@ function App() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    {t("task_delete_title")}
+                    {t("task_delete_all")}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      {t("task_delete_description")}
+                      {t("task_delete_description_all")}
                     </p>
                   </div>
 
