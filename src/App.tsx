@@ -191,7 +191,6 @@ function App() {
 
             {/* Components AddTaskForm -------------------------------------------- */}
             <AddTaskForm onAddTask={addTask} />
-
             <div className="mx-auto mt-6 max-w-2xl rounded-3xl ring-1 ring-gray-300 lg:mx-0 lg:flex lg:max-w-none my-tasks-all">
               <div className="p-8 sm:p-7 sm:mt-5 lg:flex-auto">
                 <div className="">
