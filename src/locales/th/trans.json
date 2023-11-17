@@ -14,6 +14,7 @@
   "task_delete_button" : "ลบ",
   "close_button" : "ปิด",
   "todoRequired" : "โปรดกรอกสิ่งที่ต้องทำ",
+  "todoRemark" : "รายละเอียดเพิ่มเติม (URL, Notes)",
   "no_data" : "ไม่มีข้อมูลให้ลบ",
   "welcome_message": "สวัสดี, {{name}}. ยินดีต้อนรับสู่เว็บไซต์ {{website}}!"
 }

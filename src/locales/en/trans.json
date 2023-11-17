@@ -14,6 +14,7 @@
   "task_delete_button" : "Delete",
   "close_button" : "Cancel",
   "todoRequired" : "Please fill in the tasks before submitting the form.",
+  "todoRemark" : "Description (URL, Notes)",
   "no_data" : "No data is available to delete.",
   "welcome_message": "Hello, {{name}}. Welcome to {{website}}!"
 }

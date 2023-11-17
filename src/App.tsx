@@ -11,7 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 interface Task {
   todoID: number;
   title: string;
+  note: string;
+  status_task: string;
   date: Date;
+  dueDate: string;
   datetime: Date;
   completed: boolean;
 }
@@ -20,6 +23,7 @@ function App() {
   //------------------------ ส่วนจัดการภาษา --------------------------------------------------------------------
   const { t, i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState(""); // ตั้งค่าภาษาเริ่มต้น
+
   useEffect(() => {
     const selectedLanguage = localStorage.getItem("selectedLanguage");
     if (selectedLanguage) {
@@ -47,10 +51,18 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (title: string) => {
+  const addTask = (
+    title: string,
+    note: string,
+    status_task: string,
+    dueDate: string
+  ) => {
     const newTask = {
       todoID: Date.now(),
       title,
+      note,
+      status_task,
+      dueDate,
       date: new Date(),
       datetime: new Date(),
       completed: false,
@@ -58,9 +70,11 @@ function App() {
     setTasks([...tasks, newTask]);
   };
 
-  const editTask = (todoID: number, title: string) => {
+  const editTask = (todoID: number, title: string, note: string, status_task: string, dueDate : string) => {
+
+    console.log(title,note,dueDate)
     setTasks(
-      tasks.map((task) => (task.todoID === todoID ? { ...task, title } : task))
+      tasks.map((task) => (task.todoID === todoID ? { ...task, title, note, status_task, dueDate } : task))
     );
   };
 
@@ -88,6 +102,7 @@ function App() {
       }
       return task;
     });
+    
     setTasks(updatedTasks);
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
@@ -178,7 +193,7 @@ function App() {
             />
           </div>
 
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8 pb-5">
             <div className="mx-auto max-w-2xl sm:text-center cursor-default">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 To Do List
@@ -191,7 +206,7 @@ function App() {
             {/* Components AddTaskForm -------------------------------------------- */}
             <AddTaskForm onAddTask={addTask} />
             <div className="mx-auto mt-6 max-w-2xl rounded-3xl ring-1 ring-gray-300 lg:mx-0 lg:flex lg:max-w-none my-tasks-all">
-              <div className="p-8 sm:p-7 sm:mt-5 lg:flex-auto">
+              <div className="p-8 pb-5 sm:p-7 sm:mt-5 lg:flex-auto">
                 <div className="">
                   <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="w-full cursor-default ">

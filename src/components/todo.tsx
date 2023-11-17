@@ -11,14 +11,23 @@ import {
 interface Task {
   todoID: number;
   title: string;
+  note: string;
+  status_task: string;
   date: Date;
+  dueDate: string;
   datetime: Date;
   completed: boolean;
 }
 
 interface ToDoListProps {
   task: Task; // Task[] คือประเภทของ tasks
-  onEditTask: (todoID: number, title: string) => void;
+  onEditTask: (
+    todoID: number,
+    title: string,
+    note: string,
+    status_task: string,
+    dueDate: string
+  ) => void;
   onDeleteTask: (todoID: number) => void;
   onToggleCompleted: (todoID: number) => void;
 }
@@ -35,6 +44,10 @@ export default function Todo({
 
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
+  const [note, setNote] = useState(task.note);
+  const [status_task, setStatusTask] = useState(task.status_task);
+
+  const [dueDate, setDueDate] = useState(task.dueDate);
 
   const handleEdit = () => {
     setEditing(true);
@@ -42,9 +55,12 @@ export default function Todo({
 
   const handleDone = () => {
     if (title.trim()) {
-      onEditTask(task.todoID, title.trim());
+      onEditTask(task.todoID, title.trim(), note, status_task, dueDate);
       setEditing(false);
     }
+    console.log(note);
+    console.log(status_task);
+    console.log(dueDate);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,9 +68,33 @@ export default function Todo({
     setTitle(e.target.value);
   };
 
+  const handleChangeNote = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setNote(e.target.value);
+  };
+
+  const handleChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    console.log(e.target.value);
+    console.log(new Date(e.target.value).toLocaleDateString());
+    setDueDate(e.target.value);
+  };
+
+  const handleChangeStatus = (e: ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+
+    const selectedStatus = e.target.value;
+    let selectedStatusClass = "";
+
+    onEditTask(task.todoID, title.trim(), note, selectedStatus, dueDate);
+    setStatusTask(selectedStatus);
+  };
+
   const handleCancel = () => {
     setEditing(false);
     setTitle(task.title);
+    setNote(task.note);
   };
 
   const handleDelete = (e: FormEvent) => {
@@ -68,6 +108,8 @@ export default function Todo({
 
   const taskcreate: string = new Date(task.date).toLocaleDateString();
   const taskcreateTime: string = new Date(task.date).toLocaleTimeString();
+  const taskdueDate: string = new Date(task.dueDate).toLocaleDateString();
+
   // ตัดวินาทีออก
   const createTime = taskcreateTime.slice(0, -3);
   let [isOpen, setIsOpen] = useState(false);
@@ -82,17 +124,20 @@ export default function Todo({
 
   return (
     <>
-      <li
-        key={task.todoID}
-        className="flex justify-between gap-x-4 sm:gap-x-6 py-4 sm:py-5"
-      >
-        {editing ? (
+      {editing ? (
+        <li key={task.todoID} className="flex gap-x-4 sm:gap-x-6 py-4 sm:py-5">
           <form
             onSubmit={handleDone}
-            className="flex w-full min-w-0 gap-x-2 items-center"
+            className="flex w-full min-w-0 gap-x-6 items-center flex-wrap"
           >
-            <div className="flex w-full min-w-0 gap-x-2 items-center">
+            <div className="flex w-full min-w-0 gap-x-6 items-center">
               <div className="min-w-0 flex-auto">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Title
+                </label>
                 <input
                   type="text"
                   name="title"
@@ -103,9 +148,7 @@ export default function Todo({
                   onChange={handleChange}
                 />
               </div>
-            </div>
 
-            <div className="flex items-center">
               <div className="flex text-xs sm:text-sm leading-5 text-gray-900">
                 <button type="submit">
                   <CheckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 cursor-pointer text-accent" />
@@ -115,9 +158,54 @@ export default function Todo({
                 </button>
               </div>
             </div>
+
+            <div className="flex w-full min-w-0 gap-x-6 items-center pt-3">
+              <div className="mt-1 min-w-0 flex-auto">
+                <label
+                  htmlFor="note"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Note
+                </label>
+                <input
+                  type="text"
+                  name="note"
+                  id="note"
+                  value={note}
+                  className="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-100 sm:text-base sm:leading-9"
+                  placeholder="Add a new task..."
+                  onChange={handleChangeNote}
+                />
+              </div>
+            </div>
+
+            <div className="flex w-full min-w-0 gap-x-6 items-center pt-3">
+              <div className="mt-1 min-w-0 flex-auto">
+                <label
+                  htmlFor="duedate"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Due Date
+                </label>
+                <input
+                  type="date"
+                  name="duedate"
+                  id="duedate"
+                  value={dueDate.toString()}
+                  className="block w-full rounded-md border-0 py-1.5 pl-2 pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-100 sm:text-base sm:leading-9"
+                  placeholder="Add a new task..."
+                  onChange={handleChangeDate}
+                />
+              </div>
+            </div>
           </form>
-        ) : (
-          <>
+        </li>
+      ) : (
+        <>
+          <li
+            key={task.todoID}
+            className="flex justify-between gap-x-4 sm:gap-x-6 py-4 sm:py-5"
+          >
             <div className="flex min-w-0 gap-x-2 items-center">
               <input
                 type="checkbox"
@@ -127,6 +215,21 @@ export default function Todo({
                 readOnly
               />
               <div className="min-w-0 flex-auto">
+                <p>
+                  <sup
+                    className={
+                      task.status_task === "Pending"
+                        ? "text-[#f1c232]"
+                        : task.status_task === "In Progress"
+                        ? "text-[#FF666D]"
+                        : task.status_task === "Complete"
+                        ? "text-[#98E695]"
+                        : "#000000"
+                    }
+                  >
+                    {task.status_task}{" "}
+                  </sup>
+                </p>
                 <p
                   className={`${
                     task.completed
@@ -136,11 +239,41 @@ export default function Todo({
                 >
                   {task.title}
                 </p>
+
+                <p
+                  className={`${
+                    task.completed
+                      ? "line-through decoration-wavy decoration-secondary"
+                      : "text-base font-semibold leading-6 text-gray-500 warp break-all sm:text-base"
+                  } cursor-default`}
+                >
+                  {task.note}
+                </p>
               </div>
             </div>
 
             <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
               <div className="flex text-xs sm:text-sm leading-5 text-gray-900">
+                <select
+                  id="status_task"
+                  name="status_task"
+                  autoComplete="status_task"
+                  className="block rounded-md border-0 px-2 py-0 mr-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  defaultValue={task.status_task}
+                  onChange={handleChangeStatus}
+                >
+                  <option value={"Not Started"}>Not Started</option>
+                  <option value={"Pending"} className="text-[#f1c232]">
+                    Pending
+                  </option>
+                  <option value={"In Progress"} className="text-[#FF666D]">
+                    In Progress
+                  </option>
+                  <option value={"Complete"} className="text-[#98E695]">
+                    Complete
+                  </option>
+                </select>
+
                 <PencilSquareIcon
                   className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 cursor-pointer text-accent"
                   onClick={handleEdit}
@@ -155,12 +288,16 @@ export default function Todo({
                 <time dateTime={taskcreate} className="text-gray-500">
                   {taskcreate} : {createTime}
                 </time>
+                <br />
+                <time dateTime={task.dueDate} className="text-gray-500">
+                  Due Date : {new Date(task.dueDate).toLocaleDateString()}
+                </time>
               </p>
               {/* {task.date} */}
             </div>
-          </>
-        )}
-      </li>
+          </li>
+        </>
+      )}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
